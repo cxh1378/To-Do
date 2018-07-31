@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>To--Do</title>
+  <link rel="shortcut icon" type="image/x-icon" href="image/favicon.ico">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="lib/sweetalert.css">
+</head>
+<body>
+  <div id="main">
+    <div class="container">
+      <div style="width:100%;height:100%; background-color:pink;" id="welcome">
+        <div style="padding-top:200px;">
+          <div style="font-size: 150%;font-weight:bold;"><center>欢迎来到晓辉记事软件</center></div><br><br>
+          <center><button style="width:70px;height:40px;font-size: 80%;background: #fff;" onclick="welcome_fn()">进入</button></center>
+        </div>
+      </div>
+      <div id="todo">
+        <div class="navbar">
+          <h1>To--Do</h1>
+        </div>
+        <div class="header">
+          事件清单
+        </div>
+        <form @submit.prevent="merge" id="task-form">
+          <div class="wrap">
+            <input v-model="current.title" id="task-input" type="text" placeholder="添加事件" autocomplete="off">
+            <div class="detail">
+              <textarea placeholder="事件描述" v-model="current.desc"></textarea>
+              <input id="chrome" v-model="current.alert_at" type="datetime-local">
+              <div style="display:none;font-size:0;width:100%;" id="ios">
+                <input style="display:inline-block;vertical-align: middle;" v-model="current.alert_at_ios" type="date">
+                <input style="display:inline-block;width:15%;left:20px;" v-model="current.alert_at_ios_hours" type="text" placeholder="时">
+                <input style="display:inline-block;width:15%;left:20px;" v-model="current.alert_at_ios_minutes" type="text" placeholder="分">
+              </div>
+              <button class="primary" type="submit">submit</button>
+            </div>
+          </div>
+        </form>
+        <div class="task-list">
+          <div class="wrap">
+            <div class="segment-title">未完成</div>
+            <task :todo="todo" v-if="!todo.completed" v-for="(todo,index) in list"></task>
+          </div>
+        </div>
+        <div class="task-list">
+          <div class="wrap">
+            <div class="segment-title">已完成</div>
+            <div v-if="todo.completed" v-for="(todo,index) in list" class="item completed">
+              <div @click="toggle_nocomplete(todo.id)" class="toggle-complete"></div>
+              <span class="title">{{todo.title}}</span>
+              <button @click="remove(todo.id)">删除</button>
+            </div>
+          </div>
+        </div>
+        <audio id="alert-sound" controls="controls">
+          <source id="au0" src="./sound/alert.mp3" type="audio/ogg" />
+          <source id="au1" src="./sound/alert.mp3" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+        <!-- <audio id="audio" src="./sound/alert.mp3" preload="auto"></audio> -->
+        <!-- <audio id="alert-sound">
+        // AAC file (Chrome/Safari/IE9)
+        <source src="./sound/新录音.m4a" type="audio/mpeg" />
+        // Ogg Vorbis (Firefox)
+        <source src="./sound/新录音.m4a" type="audio/ogg" />
+    </audio> -->
+      </div>
+    </div>
+    </div>
+  <template id="task-tpl">
+    <div class="item">
+      <div @click="action('toggle_complete',todo.id)" class="toggle-complete"></div>
+      <span class="title">{{todo.title}}</span>
+      <button @click="action('remove',todo.id)">删除</button>
+      <button @click="action('set_current',todo)">更新</button>
+      <button @click="action('toggle_detail',todo.id)">详情</button>
+      <span class="ts" v-if="todo.state==0">已取消提醒</span>
+      <div v-if="todo.show_detail" class="detail">
+        {{todo.desc||'暂无详情'}}
+      </div>
+    </div>
+  </template>
+<script type="text/javascript" src="lib/vue.js"></script>
+<script type="text/javascript" src="lib/jquery.js"></script>
+<script type="text/javascript" src="lib/jweixin.js"></script>
+<script type="text/javascript" src="js/myStorage.js"></script>
+<script type="text/javascript" src ="lib/sweetalert.min.js"></script>
+<script type="text/javascript" src="js/infoUtils.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>
