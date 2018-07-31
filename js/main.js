@@ -93,6 +93,7 @@
               var alert_at_ios_hours=row.alert_at_ios_hours||"00";
               var alert_at_ios_minutes=row.alert_at_ios_minutes||"00";
               if(!row.alert_at_ios||row.alert_confirmed) return;
+              if(row.completed)return;
               var alert_at=(new Date(alert_at_ios+"T"+alert_at_ios_hours+":"+alert_at_ios_minutes)).getTime()-28800*1000;
               var now=(new Date()).getTime();
               // alert(new Date(alert_at_ios+"T"+alert_at_ios_hours+":"+alert_at_ios_minutes));
@@ -171,6 +172,8 @@
           is_update=id=this.current.id;
           if(is_update){
             var index=this.find_index(id);
+            this.current.alert_confirmed=!this.current.alert_confirmed;
+            this.current.state="1";
             Vue.set(this.list,index,copy(this.current));
           }else{
             var title=this.current.title;
@@ -179,7 +182,6 @@
             this.last_id++;
             ms.set('last_id',this.last_id);
             todo.id=this.last_id;
-            todo.confirmed=false;
             this.list.push(todo);
 
           }
