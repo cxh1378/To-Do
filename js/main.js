@@ -85,7 +85,6 @@
             if(de.indexOf("ios") < 0){
               var alert_at=row.alert_at;//2018-07-01T12:12
               if(!row.alert_at||row.alert_confirmed) return;
-              if(row.completed)return;
               var alert_at=(new Date(alert_at)).getTime();
               var now=(new Date()).getTime();
             }else{
@@ -93,7 +92,6 @@
               var alert_at_ios_hours=row.alert_at_ios_hours||"00";
               var alert_at_ios_minutes=row.alert_at_ios_minutes||"00";
               if(!row.alert_at_ios||row.alert_confirmed) return;
-              if(row.completed)return;
               var alert_at=(new Date(alert_at_ios+"T"+alert_at_ios_hours+":"+alert_at_ios_minutes)).getTime()-28800*1000;
               var now=(new Date()).getTime();
               // alert(new Date(alert_at_ios+"T"+alert_at_ios_hours+":"+alert_at_ios_minutes));
