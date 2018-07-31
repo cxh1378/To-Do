@@ -80,6 +80,7 @@ button.primary {
     display: none;
     font-size: 80%;
     background: #fff;
+    vertical-align: middle;
 }
 
 .task-list .item:hover {
