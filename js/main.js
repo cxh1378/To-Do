@@ -90,7 +90,13 @@
             }else{
               var alert_at_ios=row.alert_at_ios;
               var alert_at_ios_hours=row.alert_at_ios_hours||"00";
+              if(alert_at_ios_hours.length==1){
+                alert_at_ios_hours="0"+row.alert_at_ios_hours;
+              }
               var alert_at_ios_minutes=row.alert_at_ios_minutes||"00";
+              if(alert_at_ios_minutes.length==1){
+                alert_at_ios_minutes="0"+row.alert_at_ios_minutes;
+              }
               if(!row.alert_at_ios||row.alert_confirmed) return;
               var alert_at=(new Date(alert_at_ios+"T"+alert_at_ios_hours+":"+alert_at_ios_minutes)).getTime()-28800*1000;
               var now=(new Date()).getTime();
