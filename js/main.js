@@ -89,14 +89,8 @@
               var now=(new Date()).getTime();
             }else{
               var alert_at_ios=row.alert_at_ios;
-              var alert_at_ios_hours=row.alert_at_ios_hours||"00";
-              if(alert_at_ios_hours.length==1){
-                alert_at_ios_hours="0"+row.alert_at_ios_hours;
-              }
-              var alert_at_ios_minutes=row.alert_at_ios_minutes||"00";
-              if(alert_at_ios_minutes.length==1){
-                alert_at_ios_minutes="0"+row.alert_at_ios_minutes;
-              }
+              var alert_at_ios_hours=row.alert_at_ios_hours;
+              var alert_at_ios_minutes=row.alert_at_ios_minutes;
               if(!row.alert_at_ios||row.alert_confirmed) return;
               var alert_at=(new Date(alert_at_ios+"T"+alert_at_ios_hours+":"+alert_at_ios_minutes)).getTime()-28800*1000;
               var now=(new Date()).getTime();
@@ -187,7 +181,47 @@
             this.last_id++;
             ms.set('last_id',this.last_id);
             todo.id=this.last_id;
-            this.list.push(todo);
+            if(de.indexOf("ios") < 0){
+              this.list.push(todo);
+            }else{
+              var arr;
+              todo.alert_at_ios_hours=this.current.alert_at_ios_hours||"00";
+              arr=this.fenjie(todo.alert_at_ios_hours);
+              for(var i=0;i<arr.length;i++){
+              if(!this.ishefa(arr[i])){
+                swal("错误提示", "时间格式不合法", "error");
+                return;
+              }
+              }
+              if(todo.alert_at_ios_hours>23){
+                swal("错误提示", "时间格式不合法", "error");
+                return;
+              }else if(todo.alert_at_ios_hours.length>2){
+                swal("错误提示", "时间格式不合法", "error");
+                return;
+              }else if(todo.alert_at_ios_hours.length==1){
+                todo.alert_at_ios_hours="0"+todo.row.alert_at_ios_hours;
+              }
+
+              todo.alert_at_ios_minutes=this.current.alert_at_ios_minutes||"00";
+              arr=this.fenjie(todo.alert_at_ios_minutes);
+              for(var i=0;i<arr.length;i++){
+              if(!this.ishefa(arr[i])){
+                swal("错误提示", "时间格式不合法", "error");
+                return;
+              }
+              }
+              if(todo.alert_at_ios_minutes>59){
+                swal("错误提示", "时间格式不合法", "error");
+                return;
+              }else if(todo.alert_at_ios_hours.length>2){
+                swal("错误提示", "时间格式不合法", "error");
+                return;
+              }else if(todo.alert_at_ios_minutes.length==1){
+                todo.alert_at_ios_minutes="0"+todo.row.alert_at_ios_minutes;
+              }
+              this.list.push(todo);
+            }
 
           }
           this.reset_current();
@@ -231,8 +265,19 @@
           Vue.set(this.list[i],'completed',!this.list[i].completed);
           Vue.set(this.list[i],'alert_confirmed',!this.list[i].alert_confirmed);
           Vue.set(this.list[i],'state',"1");
+        },
+        fenjie:function(obj){
+          var str=obj;
+          var arr;
+          arr=str.split("");
+          return arr;
+        },
+        ishefa:function(obj){
+          var reg = /^[0-9]*$/;
+          return reg.test(obj);
         }
-      },
+        },
+
 
       watch:{
         list:{
