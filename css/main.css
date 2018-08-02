@@ -157,7 +157,7 @@ button.primary {
 #welcome{
   width:100%;height:100%;
   background-image: url('../image/welcome.jpeg');
-  background-size: 100%;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center center;
 }
